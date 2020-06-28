@@ -4,7 +4,7 @@
 #include <fstream>
 #include <cstring>
 
-#include <ai/shunyaface.h>
+#include <fr/shunyaface.h>
 
 #define DATABASE "db.txt"
 
@@ -18,6 +18,7 @@ void usage () {
    fprintf(stderr, "usage: facedemo [name]");
    fprintf(stderr, "     : Stores face into the database");
    fprintf(stderr, "    name: name for storing into the face database.");
+   fprintf(stderr, "\n");
 }
 
 int main(int argc, char *argv[])
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
         string name;
 
         if (! frame.data ) { // Check for invalid input
-            cout <<"Could not open or find the image" << std::endl ;
+            cout <<"Could not open or find the image" << endl ;
             return -1;
         }
 
@@ -65,21 +66,17 @@ int main(int argc, char *argv[])
             /* While storing the Face user is expected to enter name in command line arguments */
             if (argc > 1) {
                 name = argv[1];
-                int a = storeFace(embeddings,name,DATABASE);
+                int8_t ret = storeFace(embeddings,name,DATABASE);
 
-                if (1 == a) {
-                    cout<<"Face is stored successfully";
+                if (1 == ret) {
+                    cout<<"Face is stored successfully"<<endl;
                     break;
 
                 } else {
-                    cout<<"There is some problem with storing face";
+                    cout<<"There is some problem with storing face"<<endl;
                     break;
                 }
-
-            } else {
-                cout<<"\nPlease enter your name as first argument.";
-                break;
-            }
+            } 
 
             /* Find face from the database.*/
             name = findFace(embeddings, DATABASE );
@@ -92,7 +89,7 @@ int main(int argc, char *argv[])
             }
 
         } else {
-            cout<<"No Face Detected!!\n";
+            cout<<"No Face Detected!!"<<endl;
         }
     }
 
